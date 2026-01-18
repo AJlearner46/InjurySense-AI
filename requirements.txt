@@ -1,0 +1,13 @@
+streamlit
+crewai
+python-dotenv
+Pillow
+opencv-python
+google-generativeai
+openai
+requests
+gTTS
+elevenlabs
+pytest
+pydantic
+
