@@ -6,7 +6,6 @@ import os
 from datetime import datetime
 import json
 
-# Page config
 st.set_page_config(
     page_title="InjurySense AI",
     page_icon="🏥",
@@ -14,7 +13,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS
 st.markdown("""
 <style>
     .main-header {
@@ -58,17 +56,14 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Initialize session state
 if 'assessment_result' not in st.session_state:
     st.session_state.assessment_result = None
 if 'uploaded_image_path' not in st.session_state:
     st.session_state.uploaded_image_path = None
 
-# Header
 st.markdown('<div class="main-header">🏥 InjurySense AI</div>', unsafe_allow_html=True)
 st.markdown('<div style="text-align: center; color: #666; font-weight: bold;">Proof of Concept - External Injury Assessment</div>', unsafe_allow_html=True)
 
-# Disclaimer
 with st.expander("⚠️ MEDICAL DISCLAIMER - READ BEFORE USE", expanded=False):
     st.markdown(f"""
     <div class="disclaimer-box">
@@ -84,7 +79,6 @@ with st.expander("⚠️ MEDICAL DISCLAIMER - READ BEFORE USE", expanded=False):
     </div>
     """, unsafe_allow_html=True)
 
-# Sidebar
 with st.sidebar:
     st.header("📋 How It Works")
     st.markdown("""
@@ -121,7 +115,6 @@ with st.sidebar:
 
 
 
-# Main content
 tab1, tab2, tab3 = st.tabs(["📤 Upload & Assess", "📊 Results", "🔧 Technical Details"])
 
 with tab1:
@@ -137,7 +130,6 @@ with tab1:
         )
 
         if uploaded_file is not None:
-            # Save uploaded file
             upload_dir = "data/uploads"
             os.makedirs(upload_dir, exist_ok=True)
 
@@ -149,10 +141,8 @@ with tab1:
 
             st.session_state.uploaded_image_path = file_path
 
-            # Display image
             st.image(uploaded_file, caption="Uploaded Injury Photo", use_container_width=True)
 
-            # Validate image
             is_valid, message = ImageProcessor.validate_image(file_path)
 
             if is_valid:
@@ -176,12 +166,10 @@ with tab1:
 
     st.divider()
 
-    # Assessment button
     if st.session_state.uploaded_image_path:
         if st.button("🔍 Analyze Injury", type="primary", use_container_width=True):
 
             with st.spinner(""):
-                # Progress indicators
                 progress_container = st.container()
 
                 with progress_container:
@@ -189,7 +177,6 @@ with tab1:
                     progress_bar = st.progress(0)
 
                     try:
-                        # Run assessment
                         result = run_medical_assessment(st.session_state.uploaded_image_path)
 
                         progress_bar.progress(33)
@@ -201,7 +188,6 @@ with tab1:
                         progress_bar.progress(100)
                         st.markdown('<div class="agent-progress">✅ Assessment complete!</div>', unsafe_allow_html=True)
 
-                        # Store result
                         st.session_state.assessment_result = result
 
                         st.success("✅ Analysis complete! View results in the 'Results' tab.")
@@ -217,7 +203,6 @@ with tab2:
     if st.session_state.assessment_result:
         result = st.session_state.assessment_result
 
-        # Check for errors
         if 'error' in result:
             st.error(f"❌ {result['error']}")
         else:
@@ -233,13 +218,11 @@ with tab2:
 
             st.markdown(f'<div class="{severity_class}">', unsafe_allow_html=True)
 
-            # Summary
             st.subheader("📋 Summary")
             st.markdown(report.get('summary', 'No summary available'))
 
             st.markdown('</div>', unsafe_allow_html=True)
 
-            # Confidence and review flag
             col1, col2, col3 = st.columns(3)
 
             with col1:
@@ -257,15 +240,12 @@ with tab2:
 
             st.divider()
 
-            # Detailed report
             with st.expander("📖 Detailed Assessment", expanded=True):
                 st.markdown(report.get('detailed', 'No detailed information available'))
 
-            # Medical details
             with st.expander("🏥 Medical Details"):
                 st.markdown(report.get('medical_details', 'No medical details available'))
 
-            # Differential diagnosis
             if 'differential_diagnosis' in diagnostic:
                 with st.expander("🔬 Differential Diagnosis"):
                     diff_diag = diagnostic['differential_diagnosis']
@@ -277,7 +257,6 @@ with tab2:
                         st.write(f"Literature support: {condition['literature_count']} studies")
                         st.write("")
 
-            # Audio output
             st.divider()
             st.subheader("🎙️ Audio Report")
 
@@ -288,7 +267,6 @@ with tab2:
             else:
                 st.info("Audio generation in progress...")
 
-            # Literature references
             if 'pubmed_results' in diagnostic:
                 st.divider()
                 with st.expander("📚 Medical Literature References"):
@@ -343,7 +321,6 @@ with tab3:
     else:
         st.info("Technical details will appear here after assessment")
 
-# Footer
 st.divider()
 st.markdown("""
 <div style="text-align: center; color: #999; font-size: 0.8rem;">

@@ -15,10 +15,8 @@ class CommunicationAgentHandler:
         primary = diagnosis_data.get("primary_diagnosis", {})
         confidence = diagnosis_data.get("confidence", 0)
 
-        # Determine severity for emotional tone
         severity = self._determine_severity(confidence, primary)
 
-        # Generate tiered text
         summary = self._generate_summary(primary, confidence, severity)
         detailed = self._generate_detailed(differential, confidence)
         medical = self._generate_medical_details(diagnosis_data)
@@ -32,7 +30,6 @@ class CommunicationAgentHandler:
             "requires_professional_review": confidence < Config.CONFIDENCE_THRESHOLD
         }
 
-        # Generate audio
         audio_path = self._generate_audio(summary, severity)
         report["audio_path"] = audio_path
 

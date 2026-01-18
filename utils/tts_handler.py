@@ -46,10 +46,8 @@ class TTSHandler:
 
         clean_text = TTSHandler._clean_text(text)
 
-        # Generate audio
         output_path = os.path.join(Config.AUDIO_DIR, output_filename)
 
-        # elevenlabs
         if ELEVENLABS_AVAILABLE and Config.ELEVENLABS_API_KEY:
             try:
                 print("🎙️ Using ElevenLabs for TTS generation...")

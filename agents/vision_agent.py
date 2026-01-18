@@ -16,22 +16,17 @@ class VisionAgentHandler:
         """
         Analyze injury image and return structured description using Gemini Pro
         """
-        # Verify image exists and can be opened
         try:
             img = Image.open(image_path)
-            # Convert to RGB if necessary (Gemini works best with RGB)
             if img.mode != 'RGB':
                 img = img.convert('RGB')
         except Exception as e:
             raise ValueError(f"Invalid image file: {e}")
 
-        # Resize image if too large (Gemini has size limits)
-        # Max dimension should be around 2048px for best results
         max_dimension = 2048
         if img.size[0] > max_dimension or img.size[1] > max_dimension:
             img.thumbnail((max_dimension, max_dimension), Image.Resampling.LANCZOS)
 
-        # Create detailed prompt for medical analysis
         prompt = """You are a medical image analysis assistant for an educational research tool. This is a proof-of-concept system for analyzing external injuries in photographs for educational and research purposes only.
 
 Please analyze the injury photograph provided with this message. Look at the image carefully and describe what you observe.
@@ -57,12 +52,10 @@ Provide your analysis in this structured format:
 
 IMPORTANT: Please analyze the image that is attached to this message. Describe the visible characteristics of the injury you observe in the photograph. This analysis is for educational purposes only."""
 
-        # Generate analysis using Gemini Vision API
         try:
             response = self.model.generate_content([prompt, img])
             response_text = response.text
             
-            # Debug: Check if we got a valid response
             if not response_text or len(response_text) < 50:
                 print(f"⚠️ Warning: Short response from vision model: {response_text[:100]}")
             

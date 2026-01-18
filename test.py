@@ -1,5 +1,3 @@
-"""Quick test script to verify POC setup"""
-
 import os
 import sys
 from crew_orchestrator import run_medical_assessment
@@ -10,7 +8,6 @@ def quick_test():
     print("QUICK POC TEST")
     print("="*60)
 
-    # Check for test images
     sample_dir = "data/sample_images"
     images = [f for f in os.listdir(sample_dir)
               if f.lower().endswith(('.jpg', '.jpeg', '.png'))]
@@ -22,11 +19,9 @@ def quick_test():
 
     print(f"\n✅ Found {len(images)} test image(s)")
 
-    # Test first image
     test_image = os.path.join(sample_dir, images[0])
     print(f"\n🔍 Testing with: {images[0]}")
 
-    # Validate
     print("\n1. Validating image...")
     is_valid, msg = ImageProcessor.validate_image(test_image)
     print(f"   {msg}")
@@ -34,7 +29,6 @@ def quick_test():
     if not is_valid:
         return
 
-    # Run assessment
     print("\n2. Running assessment (this may take 60-90 seconds)...")
     print("   - Vision Agent analyzing...")
     print("   - Diagnostic Agent consulting PubMed...")

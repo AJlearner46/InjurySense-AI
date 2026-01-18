@@ -21,8 +21,7 @@ class Config:
 
     OUTPUT_DIR = "data/outputs"
     AUDIO_DIR = "data/outputs/audio"
-
-    # Medical Disclaimer
+r
     DISCLAIMER = """
     ⚠️ MEDICAL DISCLAIMER
     This is an AI tool for informational purposes only.

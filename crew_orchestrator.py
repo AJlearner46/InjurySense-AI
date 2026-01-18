@@ -9,12 +9,10 @@ import json
 
 class MedicalAssessmentCrew:
     def __init__(self):
-        # Initialize handlers
         self.vision_handler = VisionAgentHandler()
         self.diagnostic_handler = DiagnosticAgentHandler()
         self.communication_handler = CommunicationAgentHandler()
 
-        # Create agents
         self.vision_agent = create_vision_agent()
         self.diagnostic_agent = create_diagnostic_agent()
         self.communication_agent = create_communication_agent()
@@ -34,8 +32,7 @@ class MedicalAssessmentCrew:
         print("\n✅ Vision Agent: Analyzing image...")
         vision_result = self._run_vision_analysis(image_path)
         self.crew_memory['vision_analysis'] = vision_result
-
-        # Check image quality
+ 
         if vision_result['image_quality'] < 5:
             return {
                 "error": "Image quality too low. Please upload a clearer photo.",
@@ -89,7 +86,6 @@ class MedicalAssessmentCrew:
                 expected_output="Structured JSON with injury analysis"
             )
 
-            # Add structured data to result
             result['structured_analysis'] = result['description']
             return result
 
@@ -102,19 +98,16 @@ class MedicalAssessmentCrew:
         try:
             description = vision_result['description']
 
-            # Search PubMed
             pubmed_results = self.diagnostic_handler.search_pubmed(
                 description,
                 max_results=10
             )
 
-            # Generate differential diagnosis
             differential = self.diagnostic_handler.generate_differential_diagnosis(
                 description,
                 pubmed_results
             )
 
-            # Create diagnostic task
             diagnostic_task = Task(
                 description=f"""
                 Based on this injury analysis:
@@ -133,7 +126,6 @@ class MedicalAssessmentCrew:
                 expected_output="Evidence-based diagnostic assessment"
             )
 
-            # Combine results
             result = {
                 **differential,
                 'pubmed_results': pubmed_results,
@@ -151,7 +143,6 @@ class MedicalAssessmentCrew:
         try:
             report = self.communication_handler.generate_patient_report(diagnostic_result)
 
-            # Create communication task
             communication_task = Task(
                 description=f"""
                 Create a patient-friendly explanation of this diagnosis:
@@ -180,7 +171,6 @@ class MedicalAssessmentCrew:
         return self.crew_memory
 
 
-# Convenience function
 def run_medical_assessment(image_path: str) -> Dict:
     """
     Main entry point for medical assessment
