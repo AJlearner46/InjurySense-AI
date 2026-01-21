@@ -4,18 +4,18 @@ A **multi-agent AI system** that analyzes external injury images and produces a 
 
 ---
 
-## 🚀 Features
+## Features
 
-- 🔍 Vision Agent (Gemini Pro Vision)
-- 🏥 Diagnostic Agent (PubMed Literature Search)
-- 🎙️ Communication Agent (Patient-friendly + Audio)
-- 🧠 CrewAI Multi-Agent Orchestration
-- 🖥️ Streamlit UI
-- 📊 Explainable AI Outputs
+- Vision Agent (Gemini Pro Vision)
+- Diagnostic Agent (PubMed Literature Search)
+- Communication Agent (Patient-friendly + Audio)
+- CrewAI Multi-Agent Orchestration
+- Streamlit UI
+- Explainable AI Outputs
 
 ---
 
-## 🧱 System Architecture
+## System Architecture
 Streamlit UI
 ↓
 Crew Orchestrator
@@ -26,31 +26,31 @@ Structured Medical Assessment + Audio
 
 ---
 
-## ⚙️ Setup Instructions
+## Setup Instructions
 
-### 1️⃣ Clone Repo
+### 1️. Clone Repo
 ```bash
 git clone https://github.com/.git
 cd 
 ```
 
-### 2️⃣ Create Virtual Environment
+### 2️. Create Virtual Environment
 ```bash
 python -m venv venv
 source venv/bin/activate  # Windows: venv\Scripts\activate
 ```
 
-### 3️⃣ Install Dependencies
+### 3️. Install Dependencies
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4️⃣ Configure Environment
+### 4️. Configure Environment
 ```bash
 cp .env
 ```
 
-### 5️⃣ Run App
+### 5️. Run App
 ```bash
 streamlit run app.py
 ```
